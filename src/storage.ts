@@ -1,11 +1,18 @@
-import type { AppSettings, Progress } from "./types";
+import type { AppSettings, PracticeLogEntry, Progress } from "./types";
 import { DEFAULT_PROGRESS, DEFAULT_SETTINGS } from "./types";
-import { STORAGE_PROGRESS_KEY, STORAGE_SETTINGS_KEY } from "./storageKeys";
+import {
+  STORAGE_PRACTICE_LOG_KEY,
+  STORAGE_PROGRESS_KEY,
+  STORAGE_SETTINGS_KEY,
+} from "./storageKeys";
 
 export type StorageMode = "local" | "memory";
 
+const PRACTICE_LOG_MAX = 20;
+
 let memorySettings: AppSettings = { ...DEFAULT_SETTINGS };
 let memoryProgress: Progress = structuredClone(DEFAULT_PROGRESS);
+let memoryPracticeLog: PracticeLogEntry[] = [];
 
 function parseJson<T>(raw: string | null): T | null {
   if (raw == null || raw === "") return null;
@@ -14,6 +21,35 @@ function parseJson<T>(raw: string | null): T | null {
   } catch {
     return null;
   }
+}
+
+function normalizePracticeLog(raw: unknown): PracticeLogEntry[] {
+  if (!Array.isArray(raw)) return [];
+  const out: PracticeLogEntry[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const o = item as Record<string, unknown>;
+    const playedAt = typeof o.playedAt === "string" ? o.playedAt : "";
+    const questionCount = o.questionCount === 10 ? 10 : null;
+    const correctCount =
+      typeof o.correctCount === "number" &&
+      o.correctCount >= 0 &&
+      o.correctCount <= 10
+        ? o.correctCount
+        : null;
+    const wordIds = Array.isArray(o.wordIds)
+      ? o.wordIds.filter((x): x is string => typeof x === "string")
+      : null;
+    if (
+      playedAt &&
+      questionCount === 10 &&
+      correctCount !== null &&
+      wordIds
+    ) {
+      out.push({ playedAt, questionCount, correctCount, wordIds });
+    }
+  }
+  return out;
 }
 
 export function getStorageMode(): StorageMode {
@@ -71,12 +107,33 @@ export function saveProgress(progress: Progress): void {
   localStorage.setItem(STORAGE_PROGRESS_KEY, JSON.stringify(progress));
 }
 
+export function loadPracticeLog(): PracticeLogEntry[] {
+  if (getStorageMode() === "memory") {
+    return memoryPracticeLog.map((e) => ({ ...e, wordIds: [...e.wordIds] }));
+  }
+  const parsed = parseJson<unknown>(
+    localStorage.getItem(STORAGE_PRACTICE_LOG_KEY),
+  );
+  return normalizePracticeLog(parsed);
+}
+
+export function appendPracticeLog(entry: PracticeLogEntry): void {
+  const next = [entry, ...loadPracticeLog()].slice(0, PRACTICE_LOG_MAX);
+  if (getStorageMode() === "memory") {
+    memoryPracticeLog = next;
+    return;
+  }
+  localStorage.setItem(STORAGE_PRACTICE_LOG_KEY, JSON.stringify(next));
+}
+
 export function resetAllStorage(): void {
   memorySettings = { ...DEFAULT_SETTINGS };
   memoryProgress = structuredClone(DEFAULT_PROGRESS);
+  memoryPracticeLog = [];
   try {
     localStorage.removeItem(STORAGE_SETTINGS_KEY);
     localStorage.removeItem(STORAGE_PROGRESS_KEY);
+    localStorage.removeItem(STORAGE_PRACTICE_LOG_KEY);
   } catch {
     /* ignore */
   }

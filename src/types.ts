@@ -47,3 +47,20 @@ export const DEFAULT_PROGRESS: Progress = {
   bestStarsByStage: {},
   attemptCountByStage: {},
 };
+
+/** 実践モード 1 プレイの履歴（永続化） */
+export type PracticeLogEntry = {
+  playedAt: string;
+  questionCount: 10;
+  /** その回で「誤キーなしで最後まで打てた」問題数（0〜10）。全問クリア済みでもミスがあった問は含めない */
+  correctCount: number;
+  wordIds: string[];
+};
+
+/** 実践モード結果画面へ渡す state */
+export type PracticeSessionResultState = {
+  /** {@link PracticeLogEntry.correctCount} と同じ意味（ノーミス完答数） */
+  correctCount: number;
+  questionCount: 10;
+  wordIds: string[];
+};
