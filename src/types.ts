@@ -18,6 +18,10 @@ export type Question = {
   voiceText: string;
   /** 単語のとき先頭文字だけを読む第2発話用（省略時は label の先頭1文字） */
   voiceFirstChar?: string;
+  /** 入力と別の見せ方（わかばモードのスペース区切りローマ字など） */
+  displayHint?: string;
+  /** wakaba mode: member id for log */
+  wakabaMemberId?: string;
 };
 
 export type StageDef = {
@@ -80,4 +84,33 @@ export type KanaTableEntry = {
 /** 五十音表モード結果画面へ渡す state */
 export type KanaTableResultState = {
   completed: true;
+};
+
+export type WakabaMember = {
+  id: string;
+  nameKana: string;
+};
+
+export type WakabaClassDef = {
+  classId: string;
+  classLabel: string;
+  members: WakabaMember[];
+};
+
+/** わかばモード履歴 */
+export type WakabaLogEntry = {
+  playedAt: string;
+  classId: string;
+  questionCount: number;
+  /** no-miss count (same meaning as PracticeLogEntry.correctCount) */
+  correctCount: number;
+  /** member ids in round order */
+  memberIds: string[];
+};
+
+export type WakabaResultState = {
+  correctCount: number;
+  questionCount: number;
+  classId: string;
+  memberIds: string[];
 };

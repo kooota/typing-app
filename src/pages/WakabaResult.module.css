@@ -1,0 +1,85 @@
+.page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 30%, #e8fff4 0%, #e0eeff 100%);
+}
+
+.main {
+  text-align: center;
+  max-width: 26rem;
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 6vw, 2.35rem);
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.score {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.85rem, 7vw, 2.75rem);
+  font-weight: 800;
+  color: #2d8a5c;
+}
+
+.scoreNote {
+  margin: 0 0 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #5a6c7d;
+  line-height: 1.45;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.again {
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(180deg, #f6ad55 0%, #ed8936 100%);
+  box-shadow:
+    0 5px 0 #c05621,
+    0 10px 20px rgba(237, 137, 54, 0.35);
+}
+
+.again:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 0 #c05621,
+    0 6px 14px rgba(237, 137, 54, 0.3);
+}
+
+.home {
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 800;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(180deg, #6ab7ff 0%, #3d8bfc 100%);
+  box-shadow:
+    0 5px 0 #2566c4,
+    0 10px 20px rgba(61, 139, 252, 0.35);
+}
+
+.home:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 0 #2566c4,
+    0 6px 14px rgba(61, 139, 252, 0.3);
+}

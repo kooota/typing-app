@@ -17,7 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@wakaba-local": ["src/wakaba.local.fallback.ts"]
     }
   },
   "include": ["src"]

@@ -234,3 +234,109 @@
     0 3px 0 #047857,
     0 6px 14px rgba(5, 150, 105, 0.3);
 }
+
+.wakabaSection {
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 2px dashed rgba(74, 111, 165, 0.35);
+  text-align: center;
+}
+
+.wakabaTitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #355070;
+}
+
+.wakabaHint {
+  margin: 0 0 1rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #5a6c7d;
+  line-height: 1.45;
+}
+
+.wakabaClassList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+}
+
+.wakabaChip,
+.wakabaChipActive {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.wakabaChip {
+  border: 2px solid #9fb4d8;
+  color: #355070;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.wakabaChipActive {
+  border: 2px solid #38bdf8;
+  color: #0c4a6e;
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+  box-shadow: 0 3px 10px rgba(14, 165, 233, 0.2);
+}
+
+.wakabaChip:active,
+.wakabaChipActive:active {
+  transform: scale(0.97);
+}
+
+.wakabaStats {
+  margin: 0 0 1rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.wakabaStatLine {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0d9488;
+}
+
+.wakabaEmpty {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #718096;
+}
+
+.wakabaStart {
+  font-family: inherit;
+  font-size: clamp(1.15rem, 4vw, 1.45rem);
+  font-weight: 800;
+  padding: 0.85rem 1.75rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(180deg, #2dd4bf 0%, #14b8a6 100%);
+  box-shadow:
+    0 5px 0 #0f766e,
+    0 10px 22px rgba(20, 184, 166, 0.35);
+}
+
+.wakabaStart:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 0 #0f766e,
+    0 6px 14px rgba(20, 184, 166, 0.3);
+}

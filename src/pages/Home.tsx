@@ -1,14 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getHighestUnlockedStageId, getStageById, STAGE_ORDER } from "@/stages";
-import { loadPracticeLog, loadProgress } from "@/storage";
-import type { StageId } from "@/types";
+import { loadPracticeLog, loadProgress, loadWakabaLog } from "@/storage";
+import type { StageId, WakabaClassDef } from "@/types";
+import {
+  bestWakabaEntryForClass,
+  latestWakabaEntryForClass,
+} from "@/wakaba/wakabaStats";
+import { WAKABA_CLASSES } from "@wakaba-local";
 import styles from "./Home.module.css";
+
+function wakabaClassesWithMembers(): WakabaClassDef[] {
+  return WAKABA_CLASSES.filter((c) => c.members.length > 0);
+}
 
 export function Home() {
   const navigate = useNavigate();
   const progress = loadProgress();
   const practiceLog = loadPracticeLog();
+  const wakabaLog = loadWakabaLog();
+  const wakabaClasses = useMemo(() => wakabaClassesWithMembers(), []);
   const highestStageId = getHighestUnlockedStageId(progress);
   const unlockedStages = STAGE_ORDER.filter((id) =>
     progress.unlockedStageIds.includes(id),
@@ -16,6 +27,9 @@ export function Home() {
     .map((id) => getStageById(id))
     .filter((stage): stage is NonNullable<typeof stage> => Boolean(stage));
   const [selectedStageId, setSelectedStageId] = useState<StageId>(highestStageId);
+  const [selectedWakabaClassId, setSelectedWakabaClassId] = useState<string>(
+    () => wakabaClassesWithMembers()[0]?.classId ?? "",
+  );
   const stage = getStageById(selectedStageId);
   const title = stage?.title ?? "";
 
@@ -24,6 +38,15 @@ export function Home() {
       setSelectedStageId(highestStageId);
     }
   }, [highestStageId, progress.unlockedStageIds, selectedStageId]);
+
+  useEffect(() => {
+    if (
+      wakabaClasses.length > 0 &&
+      !wakabaClasses.some((c) => c.classId === selectedWakabaClassId)
+    ) {
+      setSelectedWakabaClassId(wakabaClasses[0]!.classId);
+    }
+  }, [selectedWakabaClassId, wakabaClasses]);
 
   const onStart = () => {
     navigate(`/play/${selectedStageId}`);
@@ -40,6 +63,15 @@ export function Home() {
   }, [practiceLog]);
 
   const practiceRecent = practiceLog.slice(0, 3);
+
+  const wakabaLatest = useMemo(
+    () => latestWakabaEntryForClass(wakabaLog, selectedWakabaClassId),
+    [wakabaLog, selectedWakabaClassId],
+  );
+  const wakabaBest = useMemo(
+    () => bestWakabaEntryForClass(wakabaLog, selectedWakabaClassId),
+    [wakabaLog, selectedWakabaClassId],
+  );
 
   return (
     <div className={styles.page}>
@@ -123,6 +155,73 @@ export function Home() {
             {"\u3058\u3063\u305b\u3093\u3092\u306f\u3058\u3081\u308b"}
           </button>
         </section>
+
+        {wakabaClasses.length > 0 ? (
+          <section
+            className={styles.wakabaSection}
+            aria-label="\u308f\u304b\u3070\u30e2\u30fc\u30c9"
+          >
+            <h2 className={styles.wakabaTitle}>
+              {"\u308f\u304b\u3070\u30e2\u30fc\u30c9"}
+            </h2>
+            <p className={styles.wakabaHint}>
+              {
+                "\u304f\u3089\u3059\u3068\u306e \u306a\u307e\u3048\u3092 \u30ed\u30fc\u30de\u5b57\u3067 \u3046\u3061\u3042\u308f\u305b\u307e\u3057\u3087\u3046"
+              }
+            </p>
+            <div
+              className={styles.wakabaClassList}
+              aria-label="\u7d44\u3092\u3048\u3089\u3076"
+            >
+              {wakabaClasses.map((wc) => {
+                const active = wc.classId === selectedWakabaClassId;
+                return (
+                  <button
+                    key={wc.classId}
+                    type="button"
+                    className={
+                      active ? styles.wakabaChipActive : styles.wakabaChip
+                    }
+                    onClick={() => setSelectedWakabaClassId(wc.classId)}
+                  >
+                    {wc.classLabel}
+                  </button>
+                );
+              })}
+            </div>
+            {wakabaLatest || wakabaBest ? (
+              <div className={styles.wakabaStats}>
+                {wakabaLatest ? (
+                  <p className={styles.wakabaStatLine}>
+                    {"\u305c\u3093\u304b\u3044\u30ce\u30fc\u30df\u30b9 "}
+                    {wakabaLatest.correctCount} / {wakabaLatest.questionCount}
+                  </p>
+                ) : null}
+                {wakabaBest ? (
+                  <p className={styles.wakabaStatLine}>
+                    {"\u30d9\u30b9\u30c8\uff08\u30ce\u30fc\u30df\u30b9\uff09 "}
+                    {wakabaBest.correctCount} / {wakabaBest.questionCount}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className={styles.wakabaEmpty}>
+                {"\u307e\u3060\u304d\u308d\u304f\u304c\u306a\u3044\u3088"}
+              </p>
+            )}
+            <button
+              type="button"
+              className={styles.wakabaStart}
+              onClick={() =>
+                navigate("/wakaba", {
+                  state: { classId: selectedWakabaClassId },
+                })
+              }
+            >
+              {"\u306f\u3058\u3081\u308b"}
+            </button>
+          </section>
+        ) : null}
 
         <section className={styles.kanaSection} aria-label="\u4e94\u5341\u97f3\u8868\u30e2\u30fc\u30c9">
           <h2 className={styles.kanaTitle}>

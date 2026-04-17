@@ -58,6 +58,15 @@
   animation: popIn 0.35s ease;
 }
 
+.romajiHint {
+  margin: 0.5rem 0 0;
+  font-size: clamp(1rem, 4vw, 1.35rem);
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: #5a6c7d;
+  letter-spacing: 0.04em;
+}
+
 @keyframes popIn {
   from {
     transform: scale(0.92);
