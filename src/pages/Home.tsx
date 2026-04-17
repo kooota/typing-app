@@ -2,24 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getHighestUnlockedStageId, getStageById, STAGE_ORDER } from "@/stages";
 import { loadPracticeLog, loadProgress, loadWakabaLog } from "@/storage";
-import type { StageId, WakabaClassDef } from "@/types";
+import type { StageId } from "@/types";
 import {
   bestWakabaEntryForClass,
   latestWakabaEntryForClass,
 } from "@/wakaba/wakabaStats";
-import { WAKABA_CLASSES } from "@wakaba-local";
+import { classesWithMembers, WAKABA_CLASSES } from "@/wakaba/data";
 import styles from "./Home.module.css";
-
-function wakabaClassesWithMembers(): WakabaClassDef[] {
-  return WAKABA_CLASSES.filter((c) => c.members.length > 0);
-}
 
 export function Home() {
   const navigate = useNavigate();
   const progress = loadProgress();
   const practiceLog = loadPracticeLog();
   const wakabaLog = loadWakabaLog();
-  const wakabaClasses = useMemo(() => wakabaClassesWithMembers(), []);
+  const wakabaClasses = useMemo(() => classesWithMembers(WAKABA_CLASSES), []);
   const highestStageId = getHighestUnlockedStageId(progress);
   const unlockedStages = STAGE_ORDER.filter((id) =>
     progress.unlockedStageIds.includes(id),
@@ -28,7 +24,7 @@ export function Home() {
     .filter((stage): stage is NonNullable<typeof stage> => Boolean(stage));
   const [selectedStageId, setSelectedStageId] = useState<StageId>(highestStageId);
   const [selectedWakabaClassId, setSelectedWakabaClassId] = useState<string>(
-    () => wakabaClassesWithMembers()[0]?.classId ?? "",
+    () => classesWithMembers(WAKABA_CLASSES)[0]?.classId ?? "",
   );
   const stage = getStageById(selectedStageId);
   const title = stage?.title ?? "";

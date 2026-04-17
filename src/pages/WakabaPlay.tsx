@@ -11,16 +11,11 @@ import {
   representativeRemainder,
 } from "@/romaji";
 import { appendWakabaLog, loadSettings } from "@/storage";
-import type { WakabaClassDef } from "@/types";
+import { classesWithMembers, WAKABA_CLASSES } from "@/wakaba/data";
 import { buildWakabaQuestions } from "@/wakaba/wakabaQuestions";
-import { WAKABA_CLASSES } from "@wakaba-local";
 import styles from "./Play.module.css";
 
 const ADVANCE_MS = 400;
-
-function classesWithMembers(): WakabaClassDef[] {
-  return WAKABA_CLASSES.filter((c) => c.members.length > 0);
-}
 
 export function WakabaPlay() {
   const navigate = useNavigate();
@@ -28,7 +23,7 @@ export function WakabaPlay() {
   const classId = (location.state as { classId?: string } | null)?.classId;
 
   const cls = useMemo(
-    () => classesWithMembers().find((c) => c.classId === classId),
+    () => classesWithMembers(WAKABA_CLASSES).find((c) => c.classId === classId),
     [classId],
   );
 
