@@ -1,4 +1,14 @@
-export type StageId = "vowels" | "k-row" | "s-row" | "shi";
+export type StageId =
+  | "vowels"
+  | "k-row"
+  | "s-row"
+  | "t-row"
+  | "n-row"
+  | "h-row"
+  | "m-row"
+  | "y-row"
+  | "r-row"
+  | "w-row";
 
 export type Question = {
   id: string;
@@ -8,8 +18,6 @@ export type Question = {
   voiceText: string;
   /** 単語のとき先頭文字だけを読む第2発話用（省略時は label の先頭1文字） */
   voiceFirstChar?: string;
-  /** 練習見本として扱う（shi ステージの導入など） */
-  isPractice?: boolean;
 };
 
 export type StageDef = {

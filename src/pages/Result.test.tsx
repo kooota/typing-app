@@ -44,7 +44,7 @@ describe("Result", () => {
   });
 
   it("カリキュラム上つぎがないステージのとき", () => {
-    renderResult("/result/shi", {
+    renderResult("/result/w-row", {
       stars: 3,
       mistakes: 0,
       unlockedNewStage: false,

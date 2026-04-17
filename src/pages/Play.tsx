@@ -212,9 +212,6 @@ export function Play() {
       </header>
 
       <div className={styles.card}>
-        {q.isPractice ? (
-          <p className={styles.practice}>れんしゅう</p>
-        ) : null}
         <p className={styles.label} key={q.id}>
           {q.label}
         </p>

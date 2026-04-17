@@ -1,6 +1,63 @@
 import type { Progress, Question, StageDef, StageId } from "./types";
 
-export const STAGE_ORDER: StageId[] = ["vowels", "k-row", "s-row", "shi"];
+type KanaItem = {
+  kana: string;
+  romaji: string;
+};
+
+type PairItem = {
+  label: string;
+  answer: string;
+  voiceFirstChar: string;
+};
+
+function makeQuestion(
+  id: string,
+  label: string,
+  answer: string,
+  voiceFirstChar?: string,
+): Question {
+  return {
+    id,
+    label,
+    answer,
+    acceptedAnswers: [answer],
+    voiceText: label,
+    voiceFirstChar,
+  };
+}
+
+function buildStage(
+  id: StageId,
+  title: string,
+  prefix: string,
+  singles: KanaItem[],
+  pairs: PairItem[],
+): StageDef {
+  return {
+    id,
+    title,
+    questions: [
+      ...singles.map((item) => makeQuestion(`${prefix}-${item.romaji}`, item.kana, item.romaji)),
+      ...pairs.map((item, index) =>
+        makeQuestion(`${prefix}-pair-${index + 1}`, item.label, item.answer, item.voiceFirstChar),
+      ),
+    ],
+  };
+}
+
+export const STAGE_ORDER: StageId[] = [
+  "vowels",
+  "k-row",
+  "s-row",
+  "t-row",
+  "n-row",
+  "h-row",
+  "m-row",
+  "y-row",
+  "r-row",
+  "w-row",
+];
 
 export function nextStageId(current: StageId): StageId | null {
   const i = STAGE_ORDER.indexOf(current);
@@ -9,272 +66,190 @@ export function nextStageId(current: StageId): StageId | null {
 }
 
 export const STAGES: StageDef[] = [
-  {
-    id: "vowels",
-    title: "あいうえお",
-    questions: [
-      {
-        id: "v-a",
-        label: "あ",
-        answer: "a",
-        acceptedAnswers: ["a"],
-        voiceText: "あ",
-      },
-      {
-        id: "v-i",
-        label: "い",
-        answer: "i",
-        acceptedAnswers: ["i"],
-        voiceText: "い",
-      },
-      {
-        id: "v-u",
-        label: "う",
-        answer: "u",
-        acceptedAnswers: ["u"],
-        voiceText: "う",
-      },
-      {
-        id: "v-e",
-        label: "え",
-        answer: "e",
-        acceptedAnswers: ["e"],
-        voiceText: "え",
-      },
-      {
-        id: "v-o",
-        label: "お",
-        answer: "o",
-        acceptedAnswers: ["o"],
-        voiceText: "お",
-      },
-      {
-        id: "v-ai",
-        label: "あい",
-        answer: "ai",
-        acceptedAnswers: ["ai"],
-        voiceText: "あい",
-        voiceFirstChar: "あ",
-      },
-      {
-        id: "v-ie",
-        label: "いえ",
-        answer: "ie",
-        acceptedAnswers: ["ie"],
-        voiceText: "いえ",
-        voiceFirstChar: "い",
-      },
+  buildStage(
+    "vowels",
+    "あいうえお",
+    "v",
+    [
+      { kana: "あ", romaji: "a" },
+      { kana: "い", romaji: "i" },
+      { kana: "う", romaji: "u" },
+      { kana: "え", romaji: "e" },
+      { kana: "お", romaji: "o" },
     ],
-  },
-  {
-    id: "k-row",
-    title: "かきくけこ",
-    questions: [
-      {
-        id: "k-ka",
-        label: "か",
-        answer: "ka",
-        acceptedAnswers: ["ka"],
-        voiceText: "か",
-      },
-      {
-        id: "k-ki",
-        label: "き",
-        answer: "ki",
-        acceptedAnswers: ["ki"],
-        voiceText: "き",
-      },
-      {
-        id: "k-ku",
-        label: "く",
-        answer: "ku",
-        acceptedAnswers: ["ku"],
-        voiceText: "く",
-      },
-      {
-        id: "k-ke",
-        label: "け",
-        answer: "ke",
-        acceptedAnswers: ["ke"],
-        voiceText: "け",
-      },
-      {
-        id: "k-ko",
-        label: "こ",
-        answer: "ko",
-        acceptedAnswers: ["ko"],
-        voiceText: "こ",
-      },
-      {
-        id: "k-kao",
-        label: "かお",
-        answer: "kao",
-        acceptedAnswers: ["kao"],
-        voiceText: "かお",
-        voiceFirstChar: "か",
-      },
-      {
-        id: "k-kiku",
-        label: "きく",
-        answer: "kiku",
-        acceptedAnswers: ["kiku"],
-        voiceText: "きく",
-        voiceFirstChar: "き",
-      },
-      {
-        id: "k-koke",
-        label: "こけ",
-        answer: "koke",
-        acceptedAnswers: ["koke"],
-        voiceText: "こけ",
-        voiceFirstChar: "こ",
-      },
+    [
+      { label: "あい", answer: "ai", voiceFirstChar: "あ" },
+      { label: "うえ", answer: "ue", voiceFirstChar: "う" },
+      { label: "いえ", answer: "ie", voiceFirstChar: "い" },
+      { label: "あお", answer: "ao", voiceFirstChar: "あ" },
     ],
-  },
-  {
-    id: "s-row",
-    title: "さすせそ",
-    questions: [
-      {
-        id: "s-sa",
-        label: "さ",
-        answer: "sa",
-        acceptedAnswers: ["sa"],
-        voiceText: "さ",
-      },
-      {
-        id: "s-su",
-        label: "す",
-        answer: "su",
-        acceptedAnswers: ["su"],
-        voiceText: "す",
-      },
-      {
-        id: "s-se",
-        label: "せ",
-        answer: "se",
-        acceptedAnswers: ["se"],
-        voiceText: "せ",
-      },
-      {
-        id: "s-so",
-        label: "そ",
-        answer: "so",
-        acceptedAnswers: ["so"],
-        voiceText: "そ",
-      },
-      {
-        id: "s-sasu",
-        label: "さす",
-        answer: "sasu",
-        acceptedAnswers: ["sasu"],
-        voiceText: "さす",
-        voiceFirstChar: "さ",
-      },
-      {
-        id: "s-seso",
-        label: "せそ",
-        answer: "seso",
-        acceptedAnswers: ["seso"],
-        voiceText: "せそ",
-        voiceFirstChar: "せ",
-      },
-      {
-        id: "s-sake",
-        label: "さけ",
-        answer: "sake",
-        acceptedAnswers: ["sake"],
-        voiceText: "さけ",
-        voiceFirstChar: "さ",
-      },
-      {
-        id: "s-soso",
-        label: "そそ",
-        answer: "soso",
-        acceptedAnswers: ["soso"],
-        voiceText: "そそ",
-        voiceFirstChar: "そ",
-      },
+  ),
+  buildStage(
+    "k-row",
+    "かきくけこ",
+    "k",
+    [
+      { kana: "か", romaji: "ka" },
+      { kana: "き", romaji: "ki" },
+      { kana: "く", romaji: "ku" },
+      { kana: "け", romaji: "ke" },
+      { kana: "こ", romaji: "ko" },
     ],
-  },
-  {
-    id: "shi",
-    title: "し",
-    questions: [
-      {
-        id: "shi-p1",
-        label: "し",
-        answer: "si",
-        acceptedAnswers: ["si"],
-        voiceText: "し",
-        isPractice: true,
-      },
-      {
-        id: "shi-p2",
-        label: "し",
-        answer: "si",
-        acceptedAnswers: ["si"],
-        voiceText: "もういちど、し",
-        isPractice: true,
-      },
-      {
-        id: "shi-1",
-        label: "し",
-        answer: "si",
-        acceptedAnswers: ["si"],
-        voiceText: "し",
-      },
-      {
-        id: "shi-2",
-        label: "し",
-        answer: "si",
-        acceptedAnswers: ["si"],
-        voiceText: "し",
-      },
-      {
-        id: "shi-3",
-        label: "しあ",
-        answer: "sia",
-        acceptedAnswers: ["sia"],
-        voiceText: "しあ",
-        voiceFirstChar: "し",
-      },
-      {
-        id: "shi-4",
-        label: "しお",
-        answer: "sio",
-        acceptedAnswers: ["sio"],
-        voiceText: "しお",
-        voiceFirstChar: "し",
-      },
+    [
+      { label: "かき", answer: "kaki", voiceFirstChar: "か" },
+      { label: "くけ", answer: "kuke", voiceFirstChar: "く" },
+      { label: "かこ", answer: "kako", voiceFirstChar: "か" },
+      { label: "きこ", answer: "kiko", voiceFirstChar: "き" },
     ],
-  },
+  ),
+  buildStage(
+    "s-row",
+    "さしすせそ",
+    "s",
+    [
+      { kana: "さ", romaji: "sa" },
+      { kana: "し", romaji: "si" },
+      { kana: "す", romaji: "su" },
+      { kana: "せ", romaji: "se" },
+      { kana: "そ", romaji: "so" },
+    ],
+    [
+      { label: "さし", answer: "sasi", voiceFirstChar: "さ" },
+      { label: "すせ", answer: "suse", voiceFirstChar: "す" },
+      { label: "さそ", answer: "saso", voiceFirstChar: "さ" },
+      { label: "しそ", answer: "siso", voiceFirstChar: "し" },
+    ],
+  ),
+  buildStage(
+    "t-row",
+    "たちつてと",
+    "t",
+    [
+      { kana: "た", romaji: "ta" },
+      { kana: "ち", romaji: "ti" },
+      { kana: "つ", romaji: "tu" },
+      { kana: "て", romaji: "te" },
+      { kana: "と", romaji: "to" },
+    ],
+    [
+      { label: "たち", answer: "tati", voiceFirstChar: "た" },
+      { label: "つて", answer: "tute", voiceFirstChar: "つ" },
+      { label: "たと", answer: "tato", voiceFirstChar: "た" },
+      { label: "ちと", answer: "tito", voiceFirstChar: "ち" },
+    ],
+  ),
+  buildStage(
+    "n-row",
+    "なにぬねの",
+    "n",
+    [
+      { kana: "な", romaji: "na" },
+      { kana: "に", romaji: "ni" },
+      { kana: "ぬ", romaji: "nu" },
+      { kana: "ね", romaji: "ne" },
+      { kana: "の", romaji: "no" },
+    ],
+    [
+      { label: "なに", answer: "nani", voiceFirstChar: "な" },
+      { label: "ぬね", answer: "nune", voiceFirstChar: "ぬ" },
+      { label: "なの", answer: "nano", voiceFirstChar: "な" },
+      { label: "にの", answer: "nino", voiceFirstChar: "に" },
+    ],
+  ),
+  buildStage(
+    "h-row",
+    "はひふへほ",
+    "h",
+    [
+      { kana: "は", romaji: "ha" },
+      { kana: "ひ", romaji: "hi" },
+      { kana: "ふ", romaji: "hu" },
+      { kana: "へ", romaji: "he" },
+      { kana: "ほ", romaji: "ho" },
+    ],
+    [
+      { label: "はひ", answer: "hahi", voiceFirstChar: "は" },
+      { label: "ふへ", answer: "huhe", voiceFirstChar: "ふ" },
+      { label: "はほ", answer: "haho", voiceFirstChar: "は" },
+      { label: "ひほ", answer: "hiho", voiceFirstChar: "ひ" },
+    ],
+  ),
+  buildStage(
+    "m-row",
+    "まみむめも",
+    "m",
+    [
+      { kana: "ま", romaji: "ma" },
+      { kana: "み", romaji: "mi" },
+      { kana: "む", romaji: "mu" },
+      { kana: "め", romaji: "me" },
+      { kana: "も", romaji: "mo" },
+    ],
+    [
+      { label: "まみ", answer: "mami", voiceFirstChar: "ま" },
+      { label: "むめ", answer: "mume", voiceFirstChar: "む" },
+      { label: "まも", answer: "mamo", voiceFirstChar: "ま" },
+      { label: "みも", answer: "mimo", voiceFirstChar: "み" },
+    ],
+  ),
+  buildStage(
+    "y-row",
+    "やゆよ",
+    "y",
+    [
+      { kana: "や", romaji: "ya" },
+      { kana: "ゆ", romaji: "yu" },
+      { kana: "よ", romaji: "yo" },
+    ],
+    [
+      { label: "やゆ", answer: "yayu", voiceFirstChar: "や" },
+      { label: "ゆよ", answer: "yuyo", voiceFirstChar: "ゆ" },
+      { label: "やよ", answer: "yayo", voiceFirstChar: "や" },
+    ],
+  ),
+  buildStage(
+    "r-row",
+    "らりるれろ",
+    "r",
+    [
+      { kana: "ら", romaji: "ra" },
+      { kana: "り", romaji: "ri" },
+      { kana: "る", romaji: "ru" },
+      { kana: "れ", romaji: "re" },
+      { kana: "ろ", romaji: "ro" },
+    ],
+    [
+      { label: "らり", answer: "rari", voiceFirstChar: "ら" },
+      { label: "るれ", answer: "rure", voiceFirstChar: "る" },
+      { label: "らろ", answer: "raro", voiceFirstChar: "ら" },
+      { label: "りろ", answer: "riro", voiceFirstChar: "り" },
+    ],
+  ),
+  buildStage(
+    "w-row",
+    "わをん",
+    "w",
+    [
+      { kana: "わ", romaji: "wa" },
+      { kana: "を", romaji: "wo" },
+      { kana: "ん", romaji: "n" },
+    ],
+    [
+      { label: "わを", answer: "wawo", voiceFirstChar: "わ" },
+      { label: "わん", answer: "wan", voiceFirstChar: "わ" },
+      { label: "をん", answer: "won", voiceFirstChar: "を" },
+    ],
+  ),
 ];
 
 export function getStageById(id: StageId): StageDef | undefined {
   return STAGES.find((s) => s.id === id);
 }
 
-/** 同一ステージ内の軽いランダム化（配列のコピーを返す） */
-export function shuffleQuestions<T>(items: T[]): T[] {
-  const a = [...items];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j]!, a[i]!];
-  }
-  return a;
-}
-
-/**
- * `isPractice` の問題は定義順を保ち先頭に置き、その後ろだけシャッフルする。
- */
 export function prepareStageQuestions(stage: StageDef): Question[] {
-  const practice = stage.questions.filter((q) => q.isPractice);
-  const rest = stage.questions.filter((q) => !q.isPractice);
-  return [...practice, ...shuffleQuestions(rest)];
+  return [...stage.questions];
 }
 
-/** 解放済みのうち、カリキュラム上もっとも先のステージ */
 export function getHighestUnlockedStageId(progress: Progress): StageId {
   for (let i = STAGE_ORDER.length - 1; i >= 0; i--) {
     const id = STAGE_ORDER[i]!;

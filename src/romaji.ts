@@ -29,7 +29,7 @@ export function isComplete(
 }
 
 /**
- * 次に押せるキー（a-z）の一覧。分岐（shi / si など）では複数。
+ * 次に押せるキー（a-z）の一覧。
  */
 export function nextKeysFromAccepted(
   typed: string,
@@ -56,7 +56,7 @@ export function nextKeyFromAnswer(typed: string, answer: string): string | null 
 
 /**
  * 入力プレフィックスに合う残りローマ字。
- * 分岐時は最短の受理文字列を選び、誤解を減らす（例: s のあと si 側の「i」）。
+ * 分岐時は最短の受理文字列を選ぶ。
  */
 export function representativeRemainder(typed: string, q: Question): string {
   const t = typed.toLowerCase();
