@@ -1,0 +1,86 @@
+.page {
+  min-height: 100dvh;
+  padding: 1rem 1.25rem 2rem;
+  max-width: 32rem;
+  margin: 0 auto;
+  background: #f6f8fc;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.back {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 2px solid #b8c8dc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.warn {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #fff3cd;
+  color: #664d03;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+.section {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #34495e;
+  padding: 0.5rem 0;
+}
+
+.row input {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.danger {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e07a7a;
+  background: #fff5f5;
+  color: #b42323;
+  cursor: pointer;
+}
+
+.note {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #5a6c7d;
+  margin: 0;
+}
