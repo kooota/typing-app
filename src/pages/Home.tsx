@@ -1,42 +1,35 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getHighestUnlockedStageId, getStageById } from "@/stages";
+import { getHighestUnlockedStageId, getStageById, STAGE_ORDER } from "@/stages";
 import { loadProgress } from "@/storage";
+import type { StageId } from "@/types";
 import styles from "./Home.module.css";
-
-const LONG_PRESS_MS = 2000;
 
 export function Home() {
   const navigate = useNavigate();
   const progress = loadProgress();
-  const stageId = getHighestUnlockedStageId(progress);
-  const stage = getStageById(stageId);
+  const highestStageId = getHighestUnlockedStageId(progress);
+  const unlockedStages = STAGE_ORDER.filter((id) =>
+    progress.unlockedStageIds.includes(id),
+  )
+    .map((id) => getStageById(id))
+    .filter((stage): stage is NonNullable<typeof stage> => Boolean(stage));
+  const [selectedStageId, setSelectedStageId] = useState<StageId>(highestStageId);
+  const stage = getStageById(selectedStageId);
   const title = stage?.title ?? "";
 
-  const timerRef = useRef<number | null>(null);
-
-  const clearTimer = () => {
-    if (timerRef.current != null) {
-      window.clearTimeout(timerRef.current);
-      timerRef.current = null;
+  useEffect(() => {
+    if (!progress.unlockedStageIds.includes(selectedStageId)) {
+      setSelectedStageId(highestStageId);
     }
-  };
-
-  const onGearPointerDown = (e: React.PointerEvent) => {
-    if (e.button !== 0) return;
-    clearTimer();
-    timerRef.current = window.setTimeout(() => {
-      timerRef.current = null;
-      navigate("/parent");
-    }, LONG_PRESS_MS);
-  };
+  }, [highestStageId, progress.unlockedStageIds, selectedStageId]);
 
   const onStart = () => {
-    navigate(`/play/${stageId}`);
+    navigate(`/play/${selectedStageId}`);
   };
 
   const stageLine = useMemo(
-    () => (title ? `いまのところ：${title}` : ""),
+    () => (title ? `いまえらんでいるれんしゅう：${title}` : ""),
     [title],
   );
 
@@ -45,11 +38,8 @@ export function Home() {
       <button
         type="button"
         className={styles.gear}
-        aria-label="おとなのせってい（ながおし）"
-        onPointerDown={onGearPointerDown}
-        onPointerUp={clearTimer}
-        onPointerCancel={clearTimer}
-        onPointerLeave={clearTimer}
+        aria-label="おとなのせってい"
+        onClick={() => navigate("/parent")}
       >
         ⚙
       </button>
@@ -57,6 +47,21 @@ export function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>ローマ字タイピング</h1>
         {stageLine ? <p className={styles.reach}>{stageLine}</p> : null}
+        <div className={styles.stageList} aria-label="れんしゅうをえらぶ">
+          {unlockedStages.map((unlockedStage) => {
+            const active = unlockedStage.id === selectedStageId;
+            return (
+              <button
+                key={unlockedStage.id}
+                type="button"
+                className={active ? styles.stageChipActive : styles.stageChip}
+                onClick={() => setSelectedStageId(unlockedStage.id)}
+              >
+                {unlockedStage.title}
+              </button>
+            );
+          })}
+        </div>
         <button type="button" className={styles.start} onClick={onStart}>
           はじめる
         </button>

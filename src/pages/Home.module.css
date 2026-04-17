@@ -30,6 +30,7 @@
 .main {
   text-align: center;
   max-width: 28rem;
+  width: min(100%, 28rem);
 }
 
 .title {
@@ -43,7 +44,48 @@
   font-size: clamp(1.15rem, 3.8vw, 1.45rem);
   font-weight: 700;
   color: #4a6fa5;
-  margin: 0 0 2rem;
+  margin: 0 0 1.25rem;
+}
+
+.stageList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 0 1.75rem;
+}
+
+.stageChip,
+.stageChipActive {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
+}
+
+.stageChip {
+  border: 2px solid #9fb4d8;
+  color: #355070;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(53, 80, 112, 0.08);
+}
+
+.stageChipActive {
+  border: 2px solid #f59f00;
+  color: #7a4b00;
+  background: linear-gradient(180deg, #fff4cc 0%, #ffe08a 100%);
+  box-shadow: 0 4px 12px rgba(245, 159, 0, 0.2);
+}
+
+.stageChip:active,
+.stageChipActive:active {
+  transform: scale(0.97);
 }
 
 .start {
