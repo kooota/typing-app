@@ -1,0 +1,190 @@
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0.75rem 1.25rem;
+  background: radial-gradient(circle at 50% 0%, #fff4e0 0%, #e8f2ff 55%, #f7f5ff 100%);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.back {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 2px solid #b8c8dc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #3d5a80;
+}
+
+.tablesWrap {
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 0.5rem;
+  padding-right: 0.15rem;
+}
+
+.section {
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #4a6fa5;
+}
+
+.grid {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.cell {
+  border-radius: 0.45rem;
+  padding: 0.35rem 0.2rem;
+  text-align: center;
+  min-height: 2.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #c5d4e8;
+  background: rgba(255, 255, 255, 0.72);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.cellEmpty {
+  border: none;
+  background: transparent;
+  min-height: 2.85rem;
+  pointer-events: none;
+}
+
+.kana {
+  font-size: clamp(1rem, 3.2vw, 1.35rem);
+  font-weight: 800;
+  color: #2b3e55;
+  line-height: 1.15;
+}
+
+.romaji {
+  font-size: clamp(0.65rem, 2.2vw, 0.82rem);
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: #5a6c7d;
+  margin-top: 0.1rem;
+}
+
+.cellPending {
+  opacity: 0.55;
+}
+
+.cellDone {
+  opacity: 0.85;
+  background: rgba(220, 240, 230, 0.85);
+  border-color: #8fc9a8;
+}
+
+.cellDone .kana,
+.cellDone .romaji {
+  color: #3d6b52;
+}
+
+.cellCurrent {
+  background: linear-gradient(180deg, #fff9e6 0%, #ffe8a8 100%);
+  border-color: #f59f00;
+  box-shadow: 0 0 0 2px rgba(245, 159, 0, 0.25);
+  opacity: 1;
+}
+
+.cellCurrent .kana {
+  color: #7a4b00;
+  font-size: clamp(1.15rem, 3.8vw, 1.55rem);
+}
+
+.cellCurrent .romaji {
+  color: #b45309;
+  font-weight: 800;
+}
+
+.card {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.35rem 0 0.65rem;
+}
+
+.label {
+  margin: 0;
+  font-size: clamp(2.2rem, 10vw, 4rem);
+  font-weight: 800;
+  color: #2b3e55;
+  line-height: 1.1;
+  animation: popIn 0.35s ease;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.92);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.progress {
+  margin: 0.65rem 0 0;
+  font-size: clamp(1.15rem, 4.5vw, 1.75rem);
+  font-weight: 800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.06em;
+}
+
+.typed {
+  color: #2d6cdf;
+}
+
+.rest {
+  color: rgba(43, 62, 85, 0.35);
+}
+
+.meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #5a6c7d;
+}
+
+.hiddenInput {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}

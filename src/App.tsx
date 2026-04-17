@@ -1,5 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Home } from "@/pages/Home";
+import { KanaTablePlay } from "@/pages/KanaTablePlay";
+import { KanaTableResult } from "@/pages/KanaTableResult";
 import { ParentSettings } from "@/pages/ParentSettings";
 import { Play } from "@/pages/Play";
 import { PracticePlay } from "@/pages/PracticePlay";
@@ -14,6 +16,8 @@ export default function App() {
       <Route path="/result/:stageId" element={<Result />} />
       <Route path="/practice/result" element={<PracticeResult />} />
       <Route path="/practice" element={<PracticePlay />} />
+      <Route path="/kana-table/result" element={<KanaTableResult />} />
+      <Route path="/kana-table" element={<KanaTablePlay />} />
       <Route path="/parent" element={<ParentSettings />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -64,3 +64,20 @@ export type PracticeSessionResultState = {
   questionCount: 10;
   wordIds: string[];
 };
+
+export type KanaTableSectionKind = "basic" | "dakuon" | "yoon";
+
+export type KanaTableEntry = {
+  id: string;
+  kana: string;
+  romaji: string;
+  section: KanaTableSectionKind;
+  tableRow: number;
+  tableCol: number;
+  sequenceIndex: number;
+};
+
+/** 五十音表モード結果画面へ渡す state */
+export type KanaTableResultState = {
+  completed: true;
+};

@@ -123,6 +123,24 @@ export function Home() {
             {"\u3058\u3063\u305b\u3093\u3092\u306f\u3058\u3081\u308b"}
           </button>
         </section>
+
+        <section className={styles.kanaSection} aria-label="\u4e94\u5341\u97f3\u8868\u30e2\u30fc\u30c9">
+          <h2 className={styles.kanaTitle}>
+            {"\u4e94\u5341\u97f3\u3072\u3087\u3046"}
+          </h2>
+          <p className={styles.kanaHint}>
+            {
+              "\u3072\u3089\u304c\u306a\u3068 \u30ed\u30fc\u30de\u5b57\u3092 1\u3064\u305a\u3064 \u3058\u3085\u3093\u3070\u3093\u306b \u304a\u307c\u3048\u3088\u3046"
+            }
+          </p>
+          <button
+            type="button"
+            className={styles.kanaStart}
+            onClick={() => navigate("/kana-table")}
+          >
+            {"\u4e94\u5341\u97f3\u3072\u3087\u3046\u3092\u306f\u3058\u3081\u308b"}
+          </button>
+        </section>
       </main>
     </div>
   );

@@ -17,15 +17,15 @@ describe("normalizeKeyChar", () => {
   });
 });
 
-describe("si", () => {
-  const accepted = ["si"];
+describe("shi", () => {
+  const accepted = ["shi"];
 
-  it("s の次は i", () => {
-    expect(nextKeysFromAccepted("s", accepted).sort()).toEqual(["i"]);
+  it("sh の次は i", () => {
+    expect(nextKeysFromAccepted("sh", accepted).sort()).toEqual(["i"]);
   });
 
-  it("si で完了", () => {
-    expect(isComplete("si", accepted)).toBe(true);
+  it("shi で完了", () => {
+    expect(isComplete("shi", accepted)).toBe(true);
   });
 });
 
@@ -33,12 +33,12 @@ describe("representativeRemainder", () => {
   const q: Question = {
     id: "x",
     label: "し",
-    answer: "si",
-    acceptedAnswers: ["si"],
+    answer: "shi",
+    acceptedAnswers: ["shi"],
     voiceText: "し",
   };
 
-  it("s の次は i を示す", () => {
-    expect(representativeRemainder("s", q)).toBe("i");
+  it("sh の次は i を示す", () => {
+    expect(representativeRemainder("sh", q)).toBe("i");
   });
 });
