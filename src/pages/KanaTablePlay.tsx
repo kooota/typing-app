@@ -154,23 +154,22 @@ export function KanaTablePlay() {
     }, ADVANCE_MS);
   }, [finishAll, goNext, index, playOk]);
 
-  const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.repeat) return;
+  const handleKeyInput = useCallback(
+    (key: string, preventDefault?: () => void) => {
       if (advancingRef.current) {
-        e.preventDefault();
+        preventDefault?.();
         return;
       }
 
-      if (e.key === "Backspace") {
-        e.preventDefault();
+      if (key === "Backspace") {
+        preventDefault?.();
         setTyped((t) => t.slice(0, -1));
         return;
       }
 
-      const ch = normalizeKeyChar(e.key);
+      const ch = normalizeKeyChar(key);
       if (!ch) return;
-      e.preventDefault();
+      preventDefault?.();
 
       const next = typed + ch;
       if (isComplete(next, q.acceptedAnswers)) {
@@ -189,10 +188,34 @@ export function KanaTablePlay() {
     [onCorrectComplete, playOk, playSoftNg, q.acceptedAnswers, typed],
   );
 
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.repeat) return;
+      handleKeyInput(e.key, () => e.preventDefault());
+    },
+    [handleKeyInput],
+  );
+
+  useEffect(() => {
+    const onWindowKeyDown = (e: KeyboardEvent) => {
+      if (e.repeat) return;
+      handleKeyInput(e.key, () => e.preventDefault());
+    };
+    window.addEventListener("keydown", onWindowKeyDown);
+    return () => window.removeEventListener("keydown", onWindowKeyDown);
+  }, [handleKeyInput]);
+
   const highlightKeys = nextKeysFromAccepted(typed, q.acceptedAnswers);
 
   return (
-    <div className={styles.page}>
+    <div
+      className={styles.page}
+      onPointerDown={(e) => {
+        const target = e.target as HTMLElement | null;
+        if (target?.closest("button")) return;
+        focusInput();
+      }}
+    >
       <header className={styles.top}>
         <button
           type="button"
