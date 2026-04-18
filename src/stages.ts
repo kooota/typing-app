@@ -108,16 +108,16 @@ export const STAGES: StageDef[] = [
     "s",
     [
       { kana: "さ", romaji: "sa" },
-      { kana: "し", romaji: "shi" },
+      { kana: "し", romaji: "si" },
       { kana: "す", romaji: "su" },
       { kana: "せ", romaji: "se" },
       { kana: "そ", romaji: "so" },
     ],
     [
-      { label: "さし", answer: "sashi", voiceFirstChar: "さ" },
+      { label: "さし", answer: "sasi", voiceFirstChar: "さ" },
       { label: "すせ", answer: "suse", voiceFirstChar: "す" },
       { label: "さそ", answer: "saso", voiceFirstChar: "さ" },
-      { label: "しそ", answer: "shiso", voiceFirstChar: "し" },
+      { label: "しそ", answer: "siso", voiceFirstChar: "し" },
     ],
   ),
   buildStage(
@@ -126,16 +126,16 @@ export const STAGES: StageDef[] = [
     "t",
     [
       { kana: "た", romaji: "ta" },
-      { kana: "ち", romaji: "chi" },
-      { kana: "つ", romaji: "tsu" },
+      { kana: "ち", romaji: "ti" },
+      { kana: "つ", romaji: "tu" },
       { kana: "て", romaji: "te" },
       { kana: "と", romaji: "to" },
     ],
     [
-      { label: "たち", answer: "tachi", voiceFirstChar: "た" },
-      { label: "つて", answer: "tsute", voiceFirstChar: "つ" },
+      { label: "たち", answer: "tati", voiceFirstChar: "た" },
+      { label: "つて", answer: "tute", voiceFirstChar: "つ" },
       { label: "たと", answer: "tato", voiceFirstChar: "た" },
-      { label: "ちと", answer: "chito", voiceFirstChar: "ち" },
+      { label: "ちと", answer: "tito", voiceFirstChar: "ち" },
     ],
   ),
   buildStage(

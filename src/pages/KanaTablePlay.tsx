@@ -22,6 +22,7 @@ import {
   isValidPrefix,
   nextKeysFromAccepted,
   normalizeKeyChar,
+  displayRomaji,
   representativeRemainder,
 } from "@/romaji";
 import { loadSettings } from "@/storage";
@@ -70,7 +71,7 @@ function KanaTableGrid(props: {
       cells.push(
         <div key={ent.id} className={cellClass}>
           <span className={styles.kana}>{ent.kana}</span>
-          <span className={styles.romaji}>{ent.romaji}</span>
+          <span className={styles.romaji}>{displayRomaji(ent.romaji)}</span>
         </div>,
       );
     }
@@ -243,8 +244,10 @@ export function KanaTablePlay() {
           {q.label}
         </p>
         <p className={styles.progress} aria-live="polite">
-          <span className={styles.typed}>{typed}</span>
-          <span className={styles.rest}>{representativeRemainder(typed, q)}</span>
+          <span className={styles.typed}>{displayRomaji(typed)}</span>
+          <span className={styles.rest}>
+            {displayRomaji(representativeRemainder(typed, q))}
+          </span>
         </p>
         <p className={styles.meta}>
           {index + 1} / {KANA_TABLE_TOTAL}

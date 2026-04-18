@@ -8,6 +8,7 @@ import {
   isValidPrefix,
   nextKeysFromAccepted,
   normalizeKeyChar,
+  displayRomaji,
   representativeRemainder,
 } from "@/romaji";
 import { appendWakabaLog, loadSettings } from "@/storage";
@@ -190,12 +191,14 @@ export function WakabaPlay() {
         </p>
         {q.displayHint ? (
           <p className={styles.romajiHint} aria-hidden>
-            {q.displayHint}
+            {displayRomaji(q.displayHint)}
           </p>
         ) : null}
         <p className={styles.progress} aria-live="polite">
-          <span className={styles.typed}>{typed}</span>
-          <span className={styles.rest}>{representativeRemainder(typed, q)}</span>
+          <span className={styles.typed}>{displayRomaji(typed)}</span>
+          <span className={styles.rest}>
+            {displayRomaji(representativeRemainder(typed, q))}
+          </span>
         </p>
       </div>
 

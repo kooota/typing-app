@@ -3,6 +3,11 @@ import type { Question } from "./types";
 /**
  * ローマ字入力の正規化（小文字・英字のみ想定）
  */
+/** 画面上のローマ字表示用（入力判定は小文字のまま） */
+export function displayRomaji(romaji: string): string {
+  return romaji.toUpperCase();
+}
+
 export function normalizeKeyChar(ch: string): string | null {
   if (ch.length !== 1) return null;
   const lower = ch.toLowerCase();

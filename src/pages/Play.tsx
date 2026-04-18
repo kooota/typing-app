@@ -8,6 +8,7 @@ import {
   isValidPrefix,
   nextKeysFromAccepted,
   normalizeKeyChar,
+  displayRomaji,
   representativeRemainder,
 } from "@/romaji";
 import { starsForStage } from "@/stars";
@@ -216,8 +217,10 @@ export function Play() {
           {q.label}
         </p>
         <p className={styles.progress} aria-live="polite">
-          <span className={styles.typed}>{typed}</span>
-          <span className={styles.rest}>{representativeRemainder(typed, q)}</span>
+          <span className={styles.typed}>{displayRomaji(typed)}</span>
+          <span className={styles.rest}>
+            {displayRomaji(representativeRemainder(typed, q))}
+          </span>
         </p>
       </div>
 
